@@ -21,6 +21,7 @@
       <mat-card-actions>
         <button mat-button>LIKE</button>
         <button mat-button>SHARE</button>
+        <button mat-button (click)="goBack()">BACK</button>
       </mat-card-actions>
     </mat-card>
   </div>
@@ -33,4 +34,5 @@
            <p matLine> --{{a.author}}     {{a.date |  date : 'mediumDate'}}</p>
        </mat-list-item>
      </mat-list>
+</div>
 </div>
