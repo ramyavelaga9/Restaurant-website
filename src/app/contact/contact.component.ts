@@ -40,7 +40,7 @@ export class ContactComponent implements OnInit {
     'email': {
       'required':      'Email is required.',
       'email':         'Email not in valid format.'
-    },
+    }
   };
 
   constructor(private fb:FormBuilder) {
@@ -83,7 +83,7 @@ export class ContactComponent implements OnInit {
       }
     }
   }
-  
+
   onSubmit() {
     this.feedback = this.feedbackForm.value;
     console.log(this.feedback);
