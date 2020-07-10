@@ -23,6 +23,7 @@ export class DishdetailComponent implements OnInit {
   value:number;
   disableBtn:boolean;
   errMsg:string;
+  dishCopy:Dish;
 
   @ViewChild('fform') commentFormDirective;
   
@@ -54,7 +55,7 @@ export class DishdetailComponent implements OnInit {
     this.dishservice.getDishIds().
       subscribe(dishIds => this.dishIds = dishIds);
     this.route.params.pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))
-    .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); },
+    .subscribe(dish => { this.dish = dish; this.dishCopy=dish;this.setPrevNext(dish.id); },
     errmess=>this.errMsg=<any>errmess);
    }
   createForm(){
@@ -111,7 +112,12 @@ export class DishdetailComponent implements OnInit {
     this.d = new Date();
     this.review.date=this.d.toISOString();
     console.log(this.review);
-    this.dish.comments.push(this.review);
+    this.dishCopy.comments.push(this.review);
+    this.dishservice.putDish(this.dishCopy)
+    .subscribe(dish => {
+      this.dish = dish; this.dishCopy = dish;
+    },
+    errmess => { this.dish = null; this.dishCopy = null; this.errMsg = <any>errmess; });
     // this.slider.value=5;
     this.value=5;
     this.commentForm.reset({
