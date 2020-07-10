@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
 // import { DISHES } from '../shared/dishes'
@@ -11,12 +11,17 @@ import { DishService } from '../services/dish.service';
 export class MenuComponent implements OnInit {
 
     dishes:Dish[]; 
+    errMsg:string;
     selectedDish: Dish;   
 
-    constructor(private dishService:DishService) { }
+    // base url is added to get image url in template file
+    constructor(private dishService:DishService,
+      @Inject('BaseURL') private BaseURL) { }
 
   ngOnInit(): void {
-    this.dishService.getDishes().subscribe(dishes => this.dishes = dishes);
+    this.dishService.getDishes().
+      subscribe(dishes => this.dishes = dishes,
+        errmess=>this.errMsg=<any>errmess);
   }
   onSelect(dish:Dish){
     this.selectedDish=dish;

@@ -1,4 +1,4 @@
-import { Component, OnInit,Input ,ViewChild} from '@angular/core';
+import { Component, OnInit,Input ,ViewChild,Inject} from '@angular/core';
 import {Dish} from '../shared/dish'
 import { DishService } from '../services/dish.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -22,6 +22,8 @@ export class DishdetailComponent implements OnInit {
   d:Date;
   value:number;
   disableBtn:boolean;
+  errMsg:string;
+
   @ViewChild('fform') commentFormDirective;
   
 
@@ -43,14 +45,17 @@ export class DishdetailComponent implements OnInit {
   constructor(private dishservice: DishService,
     private route: ActivatedRoute,
     private location: Location,
-    private fb:FormBuilder) {
+    private fb:FormBuilder,
+    @Inject('BaseURL') private BaseURL) {
        this.createForm();
      }
 
   ngOnInit() {
-    this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
+    this.dishservice.getDishIds().
+      subscribe(dishIds => this.dishIds = dishIds);
     this.route.params.pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))
-    .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+    .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); },
+    errmess=>this.errMsg=<any>errmess);
    }
   createForm(){
       this.commentForm=this.fb.group({

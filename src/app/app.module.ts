@@ -36,6 +36,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 //slider
 import {MatSliderModule} from '@angular/material/slider';
+//access data from json server
+import {HttpClientModule} from '@angular/common/http';
+import {baseURL} from './shared/baseurl';
+import { PromotionService } from './services/promotion.service';
+import {ProcessHTTPMsgService} from './services/process-httpmsg.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,9 +73,16 @@ import {MatSliderModule} from '@angular/material/slider';
     MatSelectModule,
     MatSlideToggleModule,
     MatProgressSpinnerModule,
-    MatSliderModule
+    MatSliderModule,
+    HttpClientModule
   ],
-  providers: [DishService,LeaderService],
+  providers: [
+    DishService,
+    PromotionService,
+    LeaderService,
+    ProcessHTTPMsgService,
+    {provide:'BaseURL', useValue:baseURL}  
+  ],
   bootstrap: [AppComponent],
   entryComponents: [
     LoginComponent
